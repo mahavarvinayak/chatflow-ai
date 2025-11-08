@@ -1,43 +1,408 @@
-// TODO: REPLACE THIS LANDING PAGE WITH AN ELEGANT, THEMATIC, AND WELL-DESIGNED LANDING PAGE RELEVANT TO THE PROJECT
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
-import { Loader } from "lucide-react";
+import { 
+  ArrowRight, 
+  Bot, 
+  Check, 
+  Instagram, 
+  Loader2, 
+  MessageSquare, 
+  Package, 
+  Sparkles, 
+  Zap 
+} from "lucide-react";
+import { useNavigate } from "react-router";
 
 export default function Landing() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen flex flex-col"
-    >
+  const { isLoading, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-      
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="max-w-5xl mx-auto relative px-4">
-        {/* TODO: landing page goes here; replace with the landing page */}
-        <div className="flex justify-center">
-          <img
-            src="./logo.svg"
-            alt="Lock Icon"
-            width={64}
-            height={64}
-            className="rounded-lg mb-8 mt-24"
-          />
+  const features = [
+    {
+      icon: Bot,
+      title: "Smart Automation",
+      description: "Create intelligent flows that respond to Instagram comments and WhatsApp messages automatically",
+    },
+    {
+      icon: MessageSquare,
+      title: "Multi-Platform",
+      description: "Manage Instagram DMs and WhatsApp Business messages from one unified dashboard",
+    },
+    {
+      icon: Package,
+      title: "Product Catalog",
+      description: "Upload your products and let AI handle price queries and product recommendations",
+    },
+    {
+      icon: Zap,
+      title: "Lightning Fast",
+      description: "Respond to customer inquiries in milliseconds with pre-configured automation flows",
+    },
+  ];
+
+  const plans = [
+    {
+      name: "Free",
+      price: "₹0",
+      period: "forever",
+      features: [
+        "100 messages per reel/day",
+        "Basic automation flows",
+        "Instagram integration",
+        "WhatsApp integration",
+        "Product catalog (50 items)",
+      ],
+      cta: "Get Started",
+      popular: false,
+    },
+    {
+      name: "Starter",
+      price: "$7",
+      period: "per month",
+      features: [
+        "600 messages per reel/day",
+        "Advanced automation flows",
+        "Priority support",
+        "Product catalog (500 items)",
+        "Analytics dashboard",
+        "Custom templates",
+      ],
+      cta: "Start Free Trial",
+      popular: true,
+    },
+    {
+      name: "Pro",
+      price: "$15",
+      period: "per month",
+      features: [
+        "1,500 messages per reel/day",
+        "Unlimited flows",
+        "AI-powered responses",
+        "Unlimited products",
+        "Advanced analytics",
+        "API access",
+        "White-label option",
+      ],
+      cta: "Start Free Trial",
+      popular: false,
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="border-b bg-card shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/logo.svg" alt="AutoFlow.AI" className="h-8 w-8" />
+            <span className="text-xl font-bold tracking-tight">AutoFlow.AI</span>
+          </div>
+          <div className="flex items-center gap-4">
+            {isLoading ? (
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : isAuthenticated ? (
+              <Button onClick={() => navigate("/dashboard")} className="shadow-md">
+                Dashboard
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            ) : (
+              <>
+                <Button variant="ghost" onClick={() => navigate("/auth")}>
+                  Sign In
+                </Button>
+                <Button onClick={() => navigate("/auth")} className="shadow-md">
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </>
+            )}
+          </div>
         </div>
-        <div className="flex items-center justify-center">
-          <Loader className="h-8 w-8 animate-spin mr-4" />
-          <a
-            href="https://vly.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary underline hover:text-primary/80 transition-colors"
+      </nav>
+
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-20 md:py-32">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-4xl mx-auto"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 shadow-sm">
+            <Sparkles className="h-4 w-4" />
+            Automate Your Social Commerce
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            Turn Instagram & WhatsApp
+            <br />
+            Into Sales Machines
+          </h1>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Automate customer responses, manage product inquiries, and scale your social commerce with AI-powered automation flows.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" onClick={() => navigate("/auth")} className="shadow-lg">
+              Start Free Trial
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button size="lg" variant="outline" className="shadow-md">
+              Watch Demo
+            </Button>
+          </div>
+        </motion.div>
+
+        {/* Hero Image Placeholder */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-16 max-w-5xl mx-auto"
+        >
+          <div className="rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 p-8 shadow-2xl border">
+            <div className="aspect-video bg-card rounded-lg flex items-center justify-center shadow-inner">
+              <div className="text-center">
+                <Bot className="h-16 w-16 text-primary mx-auto mb-4" />
+                <p className="text-muted-foreground">Dashboard Preview</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Features Section */}
+      <section className="container mx-auto px-4 py-20 bg-secondary/30">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Everything You Need to Automate
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Powerful features to help you manage customer conversations at scale
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <Card className="h-full shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <feature.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">{feature.title}</CardTitle>
+                  <CardDescription className="text-base">
+                    {feature.description}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Integrations Section */}
+      <section className="container mx-auto px-4 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Connect Your Platforms
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Seamlessly integrate with Instagram and WhatsApp Business
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            vly.ai
-          </a>&nbsp; is generating your project...
+            <Card className="shadow-lg">
+              <CardHeader>
+                <div className="h-16 w-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4 shadow-md">
+                  <Instagram className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl">Instagram</CardTitle>
+                <CardDescription className="text-base">
+                  Auto-respond to comments and DMs. Turn engagement into sales with smart automation.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Card className="shadow-lg">
+              <CardHeader>
+                <div className="h-16 w-16 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mb-4 shadow-md">
+                  <MessageSquare className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl">WhatsApp Business</CardTitle>
+                <CardDescription className="text-base">
+                  Automate customer support and send product catalogs directly through WhatsApp.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </motion.div>
         </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="container mx-auto px-4 py-20 bg-secondary/30">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Choose the plan that fits your business needs
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <Card className={`h-full shadow-lg ${plan.popular ? "border-primary border-2" : ""}`}>
+                {plan.popular && (
+                  <div className="bg-primary text-primary-foreground text-center py-2 text-sm font-medium rounded-t-lg">
+                    Most Popular
+                  </div>
+                )}
+                <CardHeader>
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <div className="mt-4">
+                    <span className="text-4xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground ml-2">/ {plan.period}</span>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 mb-6">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    className="w-full shadow-md" 
+                    variant={plan.popular ? "default" : "outline"}
+                    onClick={() => navigate("/auth")}
+                  >
+                    {plan.cta}
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
-      </div>
-    </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center mt-12"
+        >
+          <Card className="max-w-2xl mx-auto shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl">Enterprise</CardTitle>
+              <CardDescription className="text-base">
+                For businesses with over 1M followers
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                Unlimited messages, dedicated support, custom integrations, and white-label options.
+              </p>
+              <Button variant="outline" size="lg" className="shadow-md">
+                Contact Sales
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="container mx-auto px-4 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center max-w-3xl mx-auto"
+        >
+          <Card className="shadow-2xl bg-gradient-to-br from-primary/10 to-primary/5">
+            <CardHeader className="pb-8 pt-12">
+              <CardTitle className="text-3xl md:text-4xl mb-4">
+                Ready to Automate Your Business?
+              </CardTitle>
+              <CardDescription className="text-lg">
+                Join thousands of businesses using AutoFlow.AI to scale their social commerce
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pb-12">
+              <Button size="lg" onClick={() => navigate("/auth")} className="shadow-lg">
+                Start Free Trial
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <p className="text-sm text-muted-foreground mt-4">
+                No credit card required • 14-day free trial
+              </p>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t bg-card py-12">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <img src="/logo.svg" alt="AutoFlow.AI" className="h-6 w-6" />
+              <span className="font-semibold">AutoFlow.AI</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © 2024 AutoFlow.AI. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

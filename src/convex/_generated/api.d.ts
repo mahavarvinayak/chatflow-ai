@@ -13,9 +13,13 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as analytics from "../analytics.js";
 import type * as auth_emailOtp from "../auth/emailOtp.js";
 import type * as auth from "../auth.js";
+import type * as flows from "../flows.js";
 import type * as http from "../http.js";
+import type * as integrations from "../integrations.js";
+import type * as products from "../products.js";
 import type * as users from "../users.js";
 
 /**
@@ -27,9 +31,13 @@ import type * as users from "../users.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  analytics: typeof analytics;
   "auth/emailOtp": typeof auth_emailOtp;
   auth: typeof auth;
+  flows: typeof flows;
   http: typeof http;
+  integrations: typeof integrations;
+  products: typeof products;
   users: typeof users;
 }>;
 export declare const api: FilterApi<
