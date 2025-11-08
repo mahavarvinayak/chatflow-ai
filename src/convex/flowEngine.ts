@@ -79,12 +79,148 @@ async function executeFlowActions(ctx: any, flow: any, context: any) {
       case "send_reply":
         await sendReply(ctx, integration, context, action.config);
         break;
+      case "send_product":
+        await sendProductRecommendation(ctx, integration, context, action.config);
+        break;
+      case "collect_email":
+        await collectContactInfo(ctx, flow.userId, context, action.config);
+        break;
+      case "add_tag":
+        await addContactTag(ctx, flow.userId, context, action.config);
+        break;
+      case "add_to_sequence":
+        await addToSequence(ctx, flow.userId, context, action.config);
+        break;
+      case "condition":
+        const conditionMet = await evaluateCondition(context, action.config);
+        if (!conditionMet) {
+          break; // Skip remaining actions if condition not met
+        }
+        break;
       case "delay":
         await new Promise(resolve => setTimeout(resolve, action.config.milliseconds || 1000));
+        break;
+      case "http_call":
+        await makeHttpCall(action.config);
         break;
       default:
         console.log(`Unknown action type: ${action.type}`);
     }
+  }
+}
+
+async function sendProductRecommendation(ctx: any, integration: any, context: any, config: any) {
+  const recipientId = context.senderId || context.from;
+  
+  // Get product from catalog
+  const products = await ctx.runQuery(internal.flowEngine_queries.searchProducts, {
+    userId: integration.userId,
+    query: config.productQuery || "",
+    limit: config.limit || 1,
+  });
+  
+  if (products.length === 0) {
+    return;
+  }
+  
+  const product = products[0];
+  const message = config.messageTemplate
+    .replace("{product_name}", product.name)
+    .replace("{product_price}", product.price ? `${product.currency || "$"}${product.price}` : "Contact for price")
+    .replace("{product_description}", product.description || "");
+  
+  if (integration.type === "instagram") {
+    await sendInstagramDM(integration.accessToken, recipientId, message);
+    if (product.imageUrl) {
+      // Send product image
+      await sendInstagramDM(integration.accessToken, recipientId, product.imageUrl);
+    }
+  } else if (integration.type === "whatsapp") {
+    await sendWhatsAppMessage(integration.accessToken, integration.phoneNumberId, recipientId, message);
+  }
+  
+  await ctx.runMutation(internal.flowEngine_queries.logMessage, {
+    userId: integration.userId,
+    platform: integration.type,
+    recipientId,
+    content: message,
+    direction: "outbound",
+  });
+}
+
+async function collectContactInfo(ctx: any, userId: any, context: any, config: any) {
+  const platformUserId = context.senderId || context.from;
+  const platform = context.platform || "instagram";
+  
+  await ctx.runMutation(internal.flowEngine_queries.upsertContact, {
+    userId,
+    platform,
+    platformUserId,
+    username: context.username,
+    email: config.email,
+    phone: config.phone,
+    name: config.name,
+  });
+}
+
+async function addContactTag(ctx: any, userId: any, context: any, config: any) {
+  const platformUserId = context.senderId || context.from;
+  const platform = context.platform || "instagram";
+  
+  await ctx.runMutation(internal.flowEngine_queries.addTagToContact, {
+    userId,
+    platform,
+    platformUserId,
+    tag: config.tag,
+  });
+}
+
+async function addToSequence(ctx: any, userId: any, context: any, config: any) {
+  const platformUserId = context.senderId || context.from;
+  const platform = context.platform || "instagram";
+  
+  await ctx.runMutation(internal.flowEngine_queries.subscribeToSequence, {
+    userId,
+    platform,
+    platformUserId,
+    sequenceId: config.sequenceId,
+  });
+}
+
+async function evaluateCondition(context: any, config: any): Promise<boolean> {
+  const { field, operator, value } = config;
+  const contextValue = context[field];
+  
+  switch (operator) {
+    case "equals":
+      return contextValue === value;
+    case "contains":
+      return String(contextValue).toLowerCase().includes(String(value).toLowerCase());
+    case "greater_than":
+      return Number(contextValue) > Number(value);
+    case "less_than":
+      return Number(contextValue) < Number(value);
+    default:
+      return true;
+  }
+}
+
+async function makeHttpCall(config: any) {
+  try {
+    const response = await fetch(config.url, {
+      method: config.method || "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(config.headers || {}),
+      },
+      body: config.body ? JSON.stringify(config.body) : undefined,
+    });
+    
+    if (!response.ok) {
+      console.error(`HTTP call failed: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("HTTP call error:", error);
   }
 }
 

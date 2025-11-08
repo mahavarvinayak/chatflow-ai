@@ -16,6 +16,8 @@ import type {
 import type * as analytics from "../analytics.js";
 import type * as auth_emailOtp from "../auth/emailOtp.js";
 import type * as auth from "../auth.js";
+import type * as broadcasts from "../broadcasts.js";
+import type * as contacts from "../contacts.js";
 import type * as flowEngine from "../flowEngine.js";
 import type * as flowEngine_queries from "../flowEngine_queries.js";
 import type * as flows from "../flows.js";
@@ -23,6 +25,7 @@ import type * as http from "../http.js";
 import type * as integrations from "../integrations.js";
 import type * as oauth from "../oauth.js";
 import type * as products from "../products.js";
+import type * as sequences from "../sequences.js";
 import type * as users from "../users.js";
 import type * as webhooks from "../webhooks.js";
 import type * as webhooks_mutations from "../webhooks_mutations.js";
@@ -39,6 +42,8 @@ declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   "auth/emailOtp": typeof auth_emailOtp;
   auth: typeof auth;
+  broadcasts: typeof broadcasts;
+  contacts: typeof contacts;
   flowEngine: typeof flowEngine;
   flowEngine_queries: typeof flowEngine_queries;
   flows: typeof flows;
@@ -46,6 +51,7 @@ declare const fullApi: ApiFromModules<{
   integrations: typeof integrations;
   oauth: typeof oauth;
   products: typeof products;
+  sequences: typeof sequences;
   users: typeof users;
   webhooks: typeof webhooks;
   webhooks_mutations: typeof webhooks_mutations;

@@ -22,23 +22,23 @@ export default function Landing() {
   const features = [
     {
       icon: Bot,
-      title: "Smart Automation",
-      description: "Create intelligent flows that respond to Instagram comments and WhatsApp messages automatically",
+      title: "Comment-to-DM Automation",
+      description: "Automatically send DMs when users comment specific keywords on your Instagram posts",
     },
     {
       icon: MessageSquare,
-      title: "Multi-Platform",
-      description: "Manage Instagram DMs and WhatsApp Business messages from one unified dashboard",
+      title: "Multi-Platform Support",
+      description: "Manage Instagram DMs, comments, stories, and WhatsApp messages from one dashboard",
     },
     {
       icon: Package,
-      title: "Product Catalog",
-      description: "Upload your products and let AI handle price queries and product recommendations",
+      title: "Product Recommendations",
+      description: "Send personalized product catalogs and recommendations based on customer inquiries",
     },
     {
       icon: Zap,
-      title: "Lightning Fast",
-      description: "Respond to customer inquiries in milliseconds with pre-configured automation flows",
+      title: "Broadcast Messages",
+      description: "Send targeted campaigns to your audience with advanced segmentation and scheduling",
     },
   ];
 
