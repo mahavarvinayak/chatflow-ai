@@ -48,42 +48,42 @@ export default function Landing() {
       price: "₹0",
       period: "forever",
       features: [
-        "100 messages per reel/day",
+        "50 messages per reel/day",
         "Basic automation flows",
         "Instagram integration",
         "WhatsApp integration",
-        "Product catalog (50 items)",
+        "Community support",
       ],
       cta: "Get Started",
       popular: false,
     },
     {
       name: "Starter",
-      price: "$7",
+      price: "$4",
       period: "per month",
       features: [
-        "600 messages per reel/day",
+        "400 messages per reel/day",
         "Advanced automation flows",
         "Priority support",
-        "Product catalog (500 items)",
         "Analytics dashboard",
         "Custom templates",
+        "Email support",
       ],
       cta: "Start Free Trial",
       popular: true,
     },
     {
       name: "Pro",
-      price: "$15",
+      price: "$8",
       period: "per month",
       features: [
-        "1,500 messages per reel/day",
+        "1,000 messages per reel/day",
         "Unlimited flows",
-        "AI-powered responses",
-        "Unlimited products",
+        "Advanced automation",
         "Advanced analytics",
         "API access",
         "White-label option",
+        "Dedicated support",
       ],
       cta: "Start Free Trial",
       popular: false,
@@ -96,8 +96,8 @@ export default function Landing() {
       <nav className="border-b bg-white/80 backdrop-blur-lg shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo.svg" alt="AutoFlow.AI" className="h-8 w-8" />
-            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">AutoFlow.AI</span>
+            <img src="/logo.svg" alt="ChatFlow AI" className="h-8 w-8" />
+            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">ChatFlow AI</span>
           </div>
           <div className="flex items-center gap-4">
             {isLoading ? (
@@ -140,7 +140,7 @@ export default function Landing() {
             Into Sales Machines
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Automate customer responses, manage product inquiries, and scale your social commerce with AI-powered automation flows.
+            Automate customer responses, manage product inquiries, and scale your social commerce with intelligent automation flows.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" onClick={() => navigate("/auth")} className="shadow-lg">
@@ -373,7 +373,7 @@ export default function Landing() {
                 Ready to Automate Your Business?
               </CardTitle>
               <CardDescription className="text-lg">
-                Join thousands of businesses using AutoFlow.AI to scale their social commerce
+                Join thousands of businesses using ChatFlow AI to scale their social commerce
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-12">
@@ -394,11 +394,11 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <img src="/logo.svg" alt="AutoFlow.AI" className="h-6 w-6" />
-              <span className="font-semibold">AutoFlow.AI</span>
+              <img src="/logo.svg" alt="ChatFlow AI" className="h-6 w-6" />
+              <span className="font-semibold">ChatFlow AI</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              © 2024 AutoFlow.AI. All rights reserved.
+              © 2024 ChatFlow AI by THE Π LAB. All rights reserved.
             </p>
           </div>
         </div>
