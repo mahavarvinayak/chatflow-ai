@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query, internalMutation } from "./_generated/server";
+import { mutation, query, internalMutation, internalQuery } from "./_generated/server";
 import { getCurrentUser } from "./users";
 import { integrationTypeValidator } from "./schema";
 
@@ -26,6 +26,23 @@ export const getByType = query({
       .query("integrations")
       .withIndex("by_user_and_type", (q) => 
         q.eq("userId", user._id).eq("type", args.type)
+      )
+      .collect();
+    
+    return integrations[0] || null;
+  },
+});
+
+export const getByTypeInternal = internalQuery({
+  args: { 
+    type: integrationTypeValidator,
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const integrations = await ctx.db
+      .query("integrations")
+      .withIndex("by_user_and_type", (q) => 
+        q.eq("userId", args.userId).eq("type", args.type)
       )
       .collect();
     

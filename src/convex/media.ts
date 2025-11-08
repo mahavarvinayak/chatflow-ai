@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query, mutation, action } from "./_generated/server";
+import { query, mutation, action, internalMutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { getCurrentUser } from "./users";
 
@@ -46,5 +46,53 @@ export const getFlowsForPost = query({
       .collect();
     
     return flows.filter(flow => flow.trigger.postId === args.postId);
+  },
+});
+
+export const upsertMedia = internalMutation({
+  args: {
+    userId: v.id("users"),
+    mediaId: v.string(),
+    caption: v.string(),
+    mediaType: v.string(),
+    mediaUrl: v.string(),
+    thumbnailUrl: v.optional(v.string()),
+    permalink: v.string(),
+    timestamp: v.string(),
+    likeCount: v.number(),
+    commentsCount: v.number(),
+  },
+  handler: async (ctx, args) => {
+    // Check if media already exists
+    const existing = await ctx.db
+      .query("instagramMedia")
+      .withIndex("by_media_id", (q) => q.eq("mediaId", args.mediaId))
+      .first();
+    
+    if (existing) {
+      // Update existing media
+      await ctx.db.patch(existing._id, {
+        caption: args.caption,
+        likeCount: args.likeCount,
+        commentsCount: args.commentsCount,
+        lastFetched: Date.now(),
+      });
+      return existing._id;
+    }
+    
+    // Insert new media
+    return await ctx.db.insert("instagramMedia", {
+      userId: args.userId,
+      mediaId: args.mediaId,
+      caption: args.caption,
+      mediaType: args.mediaType,
+      mediaUrl: args.mediaUrl,
+      thumbnailUrl: args.thumbnailUrl,
+      permalink: args.permalink,
+      timestamp: args.timestamp,
+      likeCount: args.likeCount,
+      commentsCount: args.commentsCount,
+      lastFetched: Date.now(),
+    });
   },
 });
