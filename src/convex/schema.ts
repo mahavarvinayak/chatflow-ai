@@ -101,7 +101,7 @@ const schema = defineSchema(
       type: integrationTypeValidator,
       
       // Meta OAuth tokens
-      accessToken: v.string(), // Encrypted
+      accessToken: v.string(),
       refreshToken: v.optional(v.string()),
       expiresAt: v.optional(v.number()),
       
@@ -118,6 +118,23 @@ const schema = defineSchema(
       .index("by_user", ["userId"])
       .index("by_user_and_type", ["userId", "type"]),
 
+    // Instagram media cache
+    instagramMedia: defineTable({
+      userId: v.id("users"),
+      mediaId: v.string(),
+      caption: v.string(),
+      mediaType: v.string(),
+      mediaUrl: v.string(),
+      thumbnailUrl: v.optional(v.string()),
+      permalink: v.string(),
+      timestamp: v.string(),
+      likeCount: v.number(),
+      commentsCount: v.number(),
+      lastFetched: v.number(),
+    })
+      .index("by_user", ["userId"])
+      .index("by_media_id", ["mediaId"]),
+
     // Automation flows
     flows: defineTable({
       userId: v.id("users"),
@@ -125,21 +142,19 @@ const schema = defineSchema(
       description: v.optional(v.string()),
       status: flowStatusValidator,
       
-      // Flow configuration (JSON structure)
       trigger: v.object({
         type: triggerTypeValidator,
         keywords: v.optional(v.array(v.string())),
         conditions: v.optional(v.any()),
-        postId: v.optional(v.string()), // For specific post triggers
-        scheduleTime: v.optional(v.string()), // For scheduled flows
+        postId: v.optional(v.string()),
+        scheduleTime: v.optional(v.string()),
       }),
       
       actions: v.array(v.object({
-        type: v.string(), // "send_dm", "send_reply", "delay", "condition", "http_call", "add_tag", "send_product", "collect_email", "send_broadcast", "add_to_sequence"
+        type: v.string(),
         config: v.any(),
       })),
       
-      // Statistics
       totalExecutions: v.optional(v.number()),
       successfulExecutions: v.optional(v.number()),
       failedExecutions: v.optional(v.number()),
@@ -155,14 +170,12 @@ const schema = defineSchema(
       message: v.string(),
       platform: integrationTypeValidator,
       
-      // Targeting
       targetAudience: v.optional(v.object({
         tags: v.optional(v.array(v.string())),
         segments: v.optional(v.array(v.string())),
         excludeTags: v.optional(v.array(v.string())),
       })),
       
-      // Scheduling
       scheduledFor: v.optional(v.number()),
       status: v.union(
         v.literal("draft"),
@@ -172,7 +185,6 @@ const schema = defineSchema(
         v.literal("failed")
       ),
       
-      // Stats
       totalRecipients: v.optional(v.number()),
       sentCount: v.optional(v.number()),
       deliveredCount: v.optional(v.number()),
@@ -190,16 +202,13 @@ const schema = defineSchema(
       platformUserId: v.string(),
       username: v.optional(v.string()),
       
-      // Contact info
       name: v.optional(v.string()),
       email: v.optional(v.string()),
       phone: v.optional(v.string()),
       
-      // Segmentation
       tags: v.array(v.string()),
       customFields: v.optional(v.any()),
       
-      // Engagement
       lastInteractionAt: v.optional(v.number()),
       totalMessages: v.optional(v.number()),
       isSubscribed: v.optional(v.boolean()),
@@ -216,7 +225,7 @@ const schema = defineSchema(
       status: flowStatusValidator,
       
       steps: v.array(v.object({
-        delay: v.number(), // Delay in hours from previous step
+        delay: v.number(),
         message: v.string(),
         mediaUrl: v.optional(v.string()),
         buttons: v.optional(v.array(v.object({
@@ -225,7 +234,6 @@ const schema = defineSchema(
         }))),
       })),
       
-      // Stats
       totalSubscribers: v.optional(v.number()),
       activeSubscribers: v.optional(v.number()),
       completedSubscribers: v.optional(v.number()),
@@ -276,16 +284,13 @@ const schema = defineSchema(
       platform: integrationTypeValidator,
       direction: v.union(v.literal("inbound"), v.literal("outbound")),
       
-      // Recipient info
       recipientId: v.string(),
       recipientUsername: v.optional(v.string()),
       
-      // Message content
-      messageType: v.string(), // "text", "image", "template"
+      messageType: v.string(),
       content: v.string(),
       mediaUrl: v.optional(v.string()),
       
-      // Status
       status: v.union(
         v.literal("queued"),
         v.literal("sent"),
@@ -295,7 +300,6 @@ const schema = defineSchema(
       ),
       errorMessage: v.optional(v.string()),
       
-      // Metadata
       postId: v.optional(v.string()),
       commentId: v.optional(v.string()),
     })
@@ -306,19 +310,16 @@ const schema = defineSchema(
     // Analytics aggregations
     analytics: defineTable({
       userId: v.id("users"),
-      date: v.string(), // YYYY-MM-DD
+      date: v.string(),
       
-      // Message counts
       totalMessages: v.number(),
       sentMessages: v.number(),
       deliveredMessages: v.number(),
       failedMessages: v.number(),
       
-      // By platform
       instagramMessages: v.number(),
       whatsappMessages: v.number(),
       
-      // Flow executions
       flowExecutions: v.number(),
     })
       .index("by_user", ["userId"])
