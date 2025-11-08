@@ -11,7 +11,6 @@ import {
   Instagram, 
   Loader2, 
   MessageSquare, 
-  Package, 
   Settings, 
   Zap 
 } from "lucide-react";
@@ -22,7 +21,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const stats = useQuery(api.analytics.getDashboardStats);
   const flows = useQuery(api.flows.list);
-  const integrations = useQuery(api.integrations.list);
 
   if (isLoading) {
     return (
@@ -50,21 +48,21 @@ export default function Dashboard() {
     : ((stats?.messagesUsedToday || 0) / currentLimit) * 100;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       {/* Header */}
-      <header className="border-b bg-card shadow-sm">
+      <header className="border-b bg-white/80 backdrop-blur-lg shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
             <img src="/logo.svg" alt="AutoFlow.AI" className="h-8 w-8" />
-            <h1 className="text-xl font-bold tracking-tight">AutoFlow.AI</h1>
+            <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">AutoFlow.AI</h1>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => navigate("/settings")}>
               <Settings className="h-5 w-5" />
             </Button>
             <div className="flex items-center gap-2 ml-4">
-              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-sm font-medium text-primary">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                <span className="text-sm font-medium text-white">
                   {user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U"}
                 </span>
               </div>
@@ -80,7 +78,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl font-bold tracking-tight mb-2">
+          <h2 className="text-3xl font-bold tracking-tight mb-2 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
             Welcome back, {user?.name || "User"}!
           </h2>
           <p className="text-muted-foreground mb-8">
@@ -89,27 +87,27 @@ export default function Dashboard() {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
+            <Card className="shadow-xl hover:shadow-2xl transition-all bg-gradient-to-br from-purple-500 to-purple-600 text-white border-0">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm font-medium text-purple-100">
                   Messages Today
                 </CardTitle>
-                <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                <MessageSquare className="h-4 w-4 text-purple-100" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats?.messagesUsedToday || 0}</div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <div className="text-3xl font-bold">{stats?.messagesUsedToday || 0}</div>
+                <p className="text-xs text-purple-100 mt-1">
                   of {currentLimit === Infinity ? "unlimited" : currentLimit} limit
                 </p>
-                <div className="w-full bg-secondary rounded-full h-2 mt-2">
+                <div className="w-full bg-purple-400/30 rounded-full h-2 mt-2">
                   <div 
-                    className="bg-primary h-2 rounded-full transition-all"
+                    className="bg-white h-2 rounded-full transition-all"
                     style={{ width: `${Math.min(usagePercentage, 100)}%` }}
                   />
                 </div>
@@ -122,16 +120,16 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
+            <Card className="shadow-xl hover:shadow-2xl transition-all bg-gradient-to-br from-pink-500 to-pink-600 text-white border-0">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm font-medium text-pink-100">
                   Active Flows
                 </CardTitle>
-                <Zap className="h-4 w-4 text-muted-foreground" />
+                <Zap className="h-4 w-4 text-pink-100" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats?.activeFlowsCount || 0}</div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <div className="text-3xl font-bold">{stats?.activeFlowsCount || 0}</div>
+                <p className="text-xs text-pink-100 mt-1">
                   {flows?.length || 0} total flows
                 </p>
               </CardContent>
@@ -143,38 +141,17 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
+            <Card className="shadow-xl hover:shadow-2xl transition-all bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm font-medium text-blue-100">
                   Integrations
                 </CardTitle>
-                <Instagram className="h-4 w-4 text-muted-foreground" />
+                <Instagram className="h-4 w-4 text-blue-100" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats?.integrationsCount || 0}</div>
-                <p className="text-xs text-muted-foreground mt-1">
+                <div className="text-3xl font-bold">{stats?.integrationsCount || 0}</div>
+                <p className="text-xs text-blue-100 mt-1">
                   Connected accounts
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Card className="shadow-md hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Products
-                </CardTitle>
-                <Package className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stats?.productsCount || 0}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  In catalog
                 </p>
               </CardContent>
             </Card>
@@ -186,40 +163,28 @@ export default function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"
         >
-          <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/flows")}>
+          <Card className="shadow-xl hover:shadow-2xl transition-all cursor-pointer bg-white/80 backdrop-blur-sm border-2 border-purple-200 hover:border-purple-400" onClick={() => navigate("/flows")}>
             <CardHeader>
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Bot className="h-6 w-6 text-primary" />
+              <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4 shadow-lg">
+                <Bot className="h-6 w-6 text-white" />
               </div>
-              <CardTitle>Create Flow</CardTitle>
+              <CardTitle className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Create Flow</CardTitle>
               <CardDescription>
                 Build automated responses for Instagram and WhatsApp
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/integrations")}>
+          <Card className="shadow-xl hover:shadow-2xl transition-all cursor-pointer bg-white/80 backdrop-blur-sm border-2 border-blue-200 hover:border-blue-400" onClick={() => navigate("/integrations")}>
             <CardHeader>
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Activity className="h-6 w-6 text-primary" />
+              <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-4 shadow-lg">
+                <Activity className="h-6 w-6 text-white" />
               </div>
-              <CardTitle>Connect Account</CardTitle>
+              <CardTitle className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Connect Account</CardTitle>
               <CardDescription>
                 Link your Instagram or WhatsApp Business account
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/products")}>
-            <CardHeader>
-              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Package className="h-6 w-6 text-primary" />
-              </div>
-              <CardTitle>Add Products</CardTitle>
-              <CardDescription>
-                Upload your product catalog for automated responses
               </CardDescription>
             </CardHeader>
           </Card>
@@ -231,14 +196,14 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <Card className="shadow-md">
+          <Card className="shadow-xl bg-white/80 backdrop-blur-sm border-2 border-purple-100">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Today's Activity</CardTitle>
+                  <CardTitle className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Today's Activity</CardTitle>
                   <CardDescription>Message delivery statistics</CardDescription>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => navigate("/analytics")}>
+                <Button variant="outline" size="sm" className="border-purple-300 hover:bg-purple-50">
                   <BarChart3 className="h-4 w-4 mr-2" />
                   View Analytics
                 </Button>
@@ -246,21 +211,21 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 rounded-lg bg-secondary/50">
-                  <div className="text-2xl font-bold">{stats?.todayStats.sentMessages || 0}</div>
-                  <div className="text-xs text-muted-foreground mt-1">Sent</div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-100 to-green-200">
+                  <div className="text-2xl font-bold text-green-700">{stats?.todayStats.sentMessages || 0}</div>
+                  <div className="text-xs text-green-600 mt-1">Sent</div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-secondary/50">
-                  <div className="text-2xl font-bold">{stats?.todayStats.deliveredMessages || 0}</div>
-                  <div className="text-xs text-muted-foreground mt-1">Delivered</div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200">
+                  <div className="text-2xl font-bold text-blue-700">{stats?.todayStats.deliveredMessages || 0}</div>
+                  <div className="text-xs text-blue-600 mt-1">Delivered</div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-secondary/50">
-                  <div className="text-2xl font-bold">{stats?.todayStats.failedMessages || 0}</div>
-                  <div className="text-xs text-muted-foreground mt-1">Failed</div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-red-100 to-red-200">
+                  <div className="text-2xl font-bold text-red-700">{stats?.todayStats.failedMessages || 0}</div>
+                  <div className="text-xs text-red-600 mt-1">Failed</div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-secondary/50">
-                  <div className="text-2xl font-bold">{stats?.todayStats.flowExecutions || 0}</div>
-                  <div className="text-xs text-muted-foreground mt-1">Executions</div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-purple-100 to-purple-200">
+                  <div className="text-2xl font-bold text-purple-700">{stats?.todayStats.flowExecutions || 0}</div>
+                  <div className="text-xs text-purple-600 mt-1">Executions</div>
                 </div>
               </div>
             </CardContent>

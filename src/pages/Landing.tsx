@@ -31,6 +31,11 @@ export default function Landing() {
       description: "Manage Instagram DMs, comments, stories, and WhatsApp messages from one dashboard",
     },
     {
+      icon: Package,
+      title: "Product Recommendations",
+      description: "Send personalized product catalogs and recommendations based on customer inquiries",
+    },
+    {
       icon: Zap,
       title: "Broadcast Messages",
       description: "Send targeted campaigns to your audience with advanced segmentation and scheduling",
@@ -86,13 +91,13 @@ export default function Landing() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       {/* Navigation */}
-      <nav className="border-b bg-card shadow-sm sticky top-0 z-50">
+      <nav className="border-b bg-white/80 backdrop-blur-lg shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src="/logo.svg" alt="AutoFlow.AI" className="h-8 w-8" />
-            <span className="text-xl font-bold tracking-tight">AutoFlow.AI</span>
+            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">AutoFlow.AI</span>
           </div>
           <div className="flex items-center gap-4">
             {isLoading ? (
