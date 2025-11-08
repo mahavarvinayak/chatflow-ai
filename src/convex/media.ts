@@ -20,8 +20,13 @@ export const listReels = query({
 export const syncInstagramMedia = action({
   args: {},
   handler: async (ctx) => {
-    const user = await getCurrentUser(ctx);
-    if (!user) throw new Error("Not authenticated");
+    // Get current user ID from auth
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+    
+    // Get user from database
+    const user = await ctx.runQuery(internal.users.getCurrentUserInternal);
+    if (!user) throw new Error("User not found");
     
     await ctx.runAction(internal.instagram.fetchUserMedia, {
       userId: user._id,

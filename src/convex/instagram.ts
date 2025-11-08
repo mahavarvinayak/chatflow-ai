@@ -1,16 +1,16 @@
 "use node";
 
 import { v } from "convex/values";
-import { internalAction, internalQuery } from "./_generated/server";
+import { internalAction, internalMutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 
 export const fetchUserMedia = internalAction({
   args: {
     userId: v.id("users"),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<any> => {
     // Get Instagram integration
-    const integration = await ctx.runQuery(internal.integrations.getByType, {
+    const integration: any = await ctx.runQuery(internal.integrations.getByType, {
       type: "instagram",
     });
     
@@ -20,7 +20,7 @@ export const fetchUserMedia = internalAction({
     
     try {
       // Fetch user's media from Instagram Graph API
-      const response = await fetch(
+      const response: Response = await fetch(
         `https://graph.facebook.com/v18.0/${integration.platformUserId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count&access_token=${integration.accessToken}`
       );
       
@@ -28,10 +28,10 @@ export const fetchUserMedia = internalAction({
         throw new Error(`Instagram API error: ${await response.text()}`);
       }
       
-      const data = await response.json();
+      const data: any = await response.json();
       
       // Filter for reels only
-      const reels = data.data.filter((media: any) => 
+      const reels: any[] = data.data.filter((media: any) => 
         media.media_type === "VIDEO" || media.media_type === "REELS"
       );
       
@@ -59,7 +59,7 @@ export const fetchUserMedia = internalAction({
   },
 });
 
-export const upsertMedia = internalAction({
+export const upsertMedia = internalMutation({
   args: {
     userId: v.id("users"),
     mediaId: v.string(),
@@ -73,8 +73,36 @@ export const upsertMedia = internalAction({
     commentsCount: v.number(),
   },
   handler: async (ctx, args) => {
-    // This would store media info - for now we'll just return it
-    // In production, you'd want to cache this in a media table
-    return args;
+    // Check if media already exists
+    const existing = await ctx.db
+      .query("instagramMedia")
+      .withIndex("by_media_id", (q) => q.eq("mediaId", args.mediaId))
+      .first();
+    
+    if (existing) {
+      // Update existing media
+      await ctx.db.patch(existing._id, {
+        caption: args.caption,
+        likeCount: args.likeCount,
+        commentsCount: args.commentsCount,
+        lastFetched: Date.now(),
+      });
+      return existing._id;
+    }
+    
+    // Insert new media
+    return await ctx.db.insert("instagramMedia", {
+      userId: args.userId,
+      mediaId: args.mediaId,
+      caption: args.caption,
+      mediaType: args.mediaType,
+      mediaUrl: args.mediaUrl,
+      thumbnailUrl: args.thumbnailUrl,
+      permalink: args.permalink,
+      timestamp: args.timestamp,
+      likeCount: args.likeCount,
+      commentsCount: args.commentsCount,
+      lastFetched: Date.now(),
+    });
   },
 });
