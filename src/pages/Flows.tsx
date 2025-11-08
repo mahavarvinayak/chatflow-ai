@@ -52,7 +52,7 @@ export default function Flows() {
   const [triggerType, setTriggerType] = useState<string>("instagram_comment");
   const [keywords, setKeywords] = useState("");
   const [dmMessage, setDmMessage] = useState("");
-  const [selectedPostId, setSelectedPostId] = useState<string>("");
+  const [selectedPostId, setSelectedPostId] = useState<string>("all_reels");
   const [isSyncing, setIsSyncing] = useState(false);
 
   if (isLoading) {
@@ -94,7 +94,7 @@ export default function Flows() {
         trigger: {
           type: triggerType as any,
           keywords: keywords ? keywords.split(",").map(k => k.trim()) : undefined,
-          postId: selectedPostId || undefined,
+          postId: selectedPostId && selectedPostId !== "all_reels" ? selectedPostId : undefined,
         },
         actions: [
           {
@@ -110,7 +110,7 @@ export default function Flows() {
       setFlowDescription("");
       setKeywords("");
       setDmMessage("");
-      setSelectedPostId("");
+      setSelectedPostId("all_reels");
     } catch (error) {
       toast.error("Failed to create flow");
       console.error(error);
@@ -240,7 +240,7 @@ export default function Flows() {
                       <SelectValue placeholder="All reels" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All reels</SelectItem>
+                      <SelectItem value="all_reels">All reels</SelectItem>
                       {reels?.map((reel) => (
                         <SelectItem key={reel.mediaId} value={reel.mediaId}>
                           {reel.caption.substring(0, 50)}...
