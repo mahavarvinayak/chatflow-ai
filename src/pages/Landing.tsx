@@ -519,7 +519,7 @@ export default function Landing() {
                   LinkedIn
                 </a>
                 <a 
-                  href="mailto:thepilab77@gmail.com" 
+                  href="mailto:contact@thepilab.com" 
                   className="hover:text-primary transition-colors flex items-center gap-2"
                 >
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
