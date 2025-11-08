@@ -31,11 +31,6 @@ export default function Landing() {
       description: "Manage Instagram DMs, comments, stories, and WhatsApp messages from one dashboard",
     },
     {
-      icon: Package,
-      title: "Product Recommendations",
-      description: "Send personalized product catalogs and recommendations based on customer inquiries",
-    },
-    {
       icon: Zap,
       title: "Broadcast Messages",
       description: "Send targeted campaigns to your audience with advanced segmentation and scheduling",

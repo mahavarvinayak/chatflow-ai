@@ -79,9 +79,6 @@ async function executeFlowActions(ctx: any, flow: any, context: any) {
       case "send_reply":
         await sendReply(ctx, integration, context, action.config);
         break;
-      case "send_product":
-        await sendProductRecommendation(ctx, integration, context, action.config);
-        break;
       case "collect_email":
         await collectContactInfo(ctx, flow.userId, context, action.config);
         break;
@@ -107,45 +104,6 @@ async function executeFlowActions(ctx: any, flow: any, context: any) {
         console.log(`Unknown action type: ${action.type}`);
     }
   }
-}
-
-async function sendProductRecommendation(ctx: any, integration: any, context: any, config: any) {
-  const recipientId = context.senderId || context.from;
-  
-  // Get product from catalog
-  const products = await ctx.runQuery(internal.flowEngine_queries.searchProducts, {
-    userId: integration.userId,
-    query: config.productQuery || "",
-    limit: config.limit || 1,
-  });
-  
-  if (products.length === 0) {
-    return;
-  }
-  
-  const product = products[0];
-  const message = config.messageTemplate
-    .replace("{product_name}", product.name)
-    .replace("{product_price}", product.price ? `${product.currency || "$"}${product.price}` : "Contact for price")
-    .replace("{product_description}", product.description || "");
-  
-  if (integration.type === "instagram") {
-    await sendInstagramDM(integration.accessToken, recipientId, message);
-    if (product.imageUrl) {
-      // Send product image
-      await sendInstagramDM(integration.accessToken, recipientId, product.imageUrl);
-    }
-  } else if (integration.type === "whatsapp") {
-    await sendWhatsAppMessage(integration.accessToken, integration.phoneNumberId, recipientId, message);
-  }
-  
-  await ctx.runMutation(internal.flowEngine_queries.logMessage, {
-    userId: integration.userId,
-    platform: integration.type,
-    recipientId,
-    content: message,
-    direction: "outbound",
-  });
 }
 
 async function collectContactInfo(ctx: any, userId: any, context: any, config: any) {
