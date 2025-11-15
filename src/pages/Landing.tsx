@@ -93,10 +93,10 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
-      {/* Enhanced 3D Animated gradient orbs with depth */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: '1000px' }}>
+      {/* Optimized 3D Animated gradient orbs with depth */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform" style={{ perspective: '1000px' }}>
         <motion.div
-          className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-3xl"
+          className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-3xl will-change-transform"
           style={{
             background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(37, 99, 235, 0.3) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
@@ -115,7 +115,7 @@ export default function Landing() {
           }}
         />
         <motion.div
-          className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full blur-3xl"
+          className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full blur-3xl will-change-transform"
           style={{
             background: 'radial-gradient(circle, rgba(148, 163, 184, 0.3) 0%, rgba(100, 116, 139, 0.2) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
@@ -134,7 +134,7 @@ export default function Landing() {
           }}
         />
         <motion.div
-          className="absolute bottom-0 left-1/3 w-[550px] h-[550px] rounded-full blur-3xl"
+          className="absolute bottom-0 left-1/3 w-[550px] h-[550px] rounded-full blur-3xl will-change-transform"
           style={{
             background: 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(71, 85, 105, 0.25) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
@@ -153,7 +153,7 @@ export default function Landing() {
           }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full blur-3xl will-change-transform"
           style={{
             background: 'radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
