@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
   ArrowRight, 
   Bot, 
@@ -15,10 +15,26 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { Logo } from "@/components/Logo";
+import { useRef } from "react";
 
 export default function Landing() {
   const { isLoading, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Parallax scroll tracking
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+  
+  // Transform values for parallax effects
+  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -300]);
+  const orb2Y = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const orb3Y = useTransform(scrollYProgress, [0, 1], [0, -250]);
+  const orb4Y = useTransform(scrollYProgress, [0, 1], [0, -150]);
 
   const features = [
     {
@@ -92,14 +108,15 @@ export default function Landing() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
-      {/* Optimized 3D Animated gradient orbs with depth */}
+    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
+      {/* Optimized 3D Animated gradient orbs with depth and parallax */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform" style={{ perspective: '1000px' }}>
         <motion.div
           className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-3xl will-change-transform"
           style={{
             background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(37, 99, 235, 0.3) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
+            y: orb1Y,
           }}
           animate={{
             x: [0, 150, 0],
@@ -119,6 +136,7 @@ export default function Landing() {
           style={{
             background: 'radial-gradient(circle, rgba(148, 163, 184, 0.3) 0%, rgba(100, 116, 139, 0.2) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
+            y: orb2Y,
           }}
           animate={{
             x: [0, -120, 0],
@@ -138,6 +156,7 @@ export default function Landing() {
           style={{
             background: 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(71, 85, 105, 0.25) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
+            y: orb3Y,
           }}
           animate={{
             x: [0, -80, 0],
@@ -158,6 +177,7 @@ export default function Landing() {
             background: 'radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 100%)',
             transformStyle: 'preserve-3d',
             transform: 'translate(-50%, -50%)',
+            y: orb4Y,
           }}
           animate={{
             scale: [1, 1.5, 1],
@@ -209,7 +229,12 @@ export default function Landing() {
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto"
-          style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+          style={{ 
+            transformStyle: 'preserve-3d', 
+            perspective: '1000px',
+            y: heroY,
+            opacity: heroOpacity
+          }}
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium mb-6 shadow-sm border border-slate-200">
             <Sparkles className="h-4 w-4" />
