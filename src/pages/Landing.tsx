@@ -93,14 +93,20 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Enhanced 3D Animated gradient orbs with depth */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ perspective: '1000px' }}>
         <motion.div
-          className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400/30 to-blue-600/20 rounded-full blur-3xl"
+          className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(37, 99, 235, 0.3) 50%, transparent 100%)',
+            transformStyle: 'preserve-3d',
+          }}
           animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.2, 1],
+            x: [0, 150, 0],
+            y: [0, 80, 0],
+            scale: [1, 1.3, 1],
+            rotateX: [0, 15, 0],
+            rotateY: [0, 15, 0],
           }}
           transition={{
             duration: 20,
@@ -109,11 +115,17 @@ export default function Landing() {
           }}
         />
         <motion.div
-          className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-br from-slate-400/20 to-slate-600/15 rounded-full blur-3xl"
+          className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(148, 163, 184, 0.3) 0%, rgba(100, 116, 139, 0.2) 50%, transparent 100%)',
+            transformStyle: 'preserve-3d',
+          }}
           animate={{
-            x: [0, -100, 0],
-            y: [0, 100, 0],
-            scale: [1, 1.3, 1],
+            x: [0, -120, 0],
+            y: [0, 120, 0],
+            scale: [1, 1.4, 1],
+            rotateX: [0, -20, 0],
+            rotateZ: [0, 10, 0],
           }}
           transition={{
             duration: 25,
@@ -122,14 +134,38 @@ export default function Landing() {
           }}
         />
         <motion.div
-          className="absolute bottom-0 left-1/3 w-96 h-96 bg-gradient-to-br from-blue-500/25 to-slate-500/15 rounded-full blur-3xl"
+          className="absolute bottom-0 left-1/3 w-[550px] h-[550px] rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(71, 85, 105, 0.25) 50%, transparent 100%)',
+            transformStyle: 'preserve-3d',
+          }}
           animate={{
-            x: [0, -50, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.1, 1],
+            x: [0, -80, 0],
+            y: [0, -80, 0],
+            scale: [1, 1.2, 1],
+            rotateY: [0, 20, 0],
+            rotateZ: [0, -15, 0],
           }}
           transition={{
             duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 100%)',
+            transformStyle: 'preserve-3d',
+            transform: 'translate(-50%, -50%)',
+          }}
+          animate={{
+            scale: [1, 1.5, 1],
+            rotateX: [0, 360, 0],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 30,
             repeat: Infinity,
             ease: "easeInOut",
           }}
@@ -169,20 +205,39 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20, rotateX: -10 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto"
+          style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-sm font-medium mb-6 shadow-sm border border-slate-200">
             <Sparkles className="h-4 w-4" />
             Automate Your Social Commerce
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-slate-900">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-slate-900"
+            style={{
+              textShadow: '0 4px 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1)',
+              transformStyle: 'preserve-3d',
+            }}
+            animate={{
+              textShadow: [
+                '0 4px 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1)',
+                '0 6px 30px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2)',
+                '0 4px 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1)',
+              ],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
             Turn Instagram & WhatsApp
             <br />
             Into Sales Machines
-          </h1>
+          </motion.h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Automate customer responses, manage product inquiries, and scale your social commerce with intelligent automation flows.
           </p>
@@ -199,12 +254,18 @@ export default function Landing() {
 
         {/* Hero Image Placeholder */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 40, rotateX: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mt-16 max-w-5xl mx-auto"
+          style={{ transformStyle: 'preserve-3d', perspective: '2000px' }}
+          whileHover={{ 
+            scale: 1.02, 
+            rotateX: -2,
+            transition: { duration: 0.3 }
+          }}
         >
-          <div className="rounded-xl bg-gradient-to-br from-white/90 via-blue-50/80 to-slate-100/90 p-8 shadow-2xl border border-slate-200/50 backdrop-blur-sm relative overflow-hidden">
+          <div className="rounded-xl bg-gradient-to-br from-white/90 via-blue-50/80 to-slate-100/90 p-8 shadow-2xl border border-slate-200/50 backdrop-blur-sm relative overflow-hidden" style={{ transform: 'translateZ(50px)' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 via-transparent to-slate-400/5" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-300/20 to-transparent rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-slate-300/20 to-transparent rounded-full blur-3xl" />
@@ -215,7 +276,13 @@ export default function Landing() {
                 <div className="grid grid-cols-3 gap-3">
                   <motion.div 
                     className="bg-gradient-to-br from-slate-700 to-slate-800 rounded-lg p-3 text-white cursor-pointer"
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    style={{ transformStyle: 'preserve-3d' }}
+                    whileHover={{ 
+                      scale: 1.08, 
+                      y: -5,
+                      rotateX: 5,
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+                    }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="text-xs opacity-80">Messages Today</div>
@@ -334,8 +401,17 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white/95 to-slate-50/90 backdrop-blur-md border border-slate-200/50 hover:border-blue-300/50 relative overflow-hidden group">
+              <Card className="h-full shadow-lg hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-white/95 to-slate-50/90 backdrop-blur-md border border-slate-200/50 hover:border-blue-300/50 relative overflow-hidden group" style={{ transformStyle: 'preserve-3d' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-blue-400/0 to-blue-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <motion.div 
+                className="absolute inset-0 pointer-events-none"
+                initial={{ opacity: 0 }}
+                whileHover={{ 
+                  opacity: 1,
+                  background: 'radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+                }}
+                transition={{ duration: 0.3 }}
+              />
                 <CardHeader>
                   <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center mb-4 shadow-md">
                     <feature.icon className="h-6 w-6 text-white" />
